@@ -18,6 +18,14 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string strPath, strJson;
+            List<FundValue> lsFundValue;
+
+            strPath = string.Format("{0}\\..\\..\\..\\WindowsFormsApplication1\\Data\\MyData.json", System.AppDomain.CurrentDomain.BaseDirectory);
+            strJson = SingletonClass.singletonClass.GetData(strPath);
+
+            lsFundValue = Newtonsoft.Json.JsonConvert.DeserializeObject<List<FundValue>>(strJson);
+
             //RequestData("https://www.fundrich.com.tw/fund/116011.html?id=116011#%E5%9F%BA%E9%87%91%E7%B8%BD%E8%A6%BD");
 
         }
@@ -40,8 +48,9 @@ namespace WindowsFormsApplication1
             {
                 string strPath, strData;
 
-                strData = SingletonClass.singletonClass.RequestUrl(fundValue.strUrl, System.Text.Encoding.UTF8);
                 strPath = string.Format("{0}\\..\\..\\..\\WindowsFormsApplication1\\Data\\MyData.json", System.AppDomain.CurrentDomain.BaseDirectory);
+                strData = SingletonClass.singletonClass.RequestUrl(fundValue.strUrl, System.Text.Encoding.UTF8);
+
 
                 NSoup.Nodes.Document htmlDoc = NSoup.NSoupClient.Parse(strData);
                 NSoup.Select.Elements ele = htmlDoc.GetElementsByTag("span");
