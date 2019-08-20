@@ -1,0 +1,35 @@
+[
+  {
+    "decreaseDay": "16",
+    "decreaseMoney": 5000.0,
+    "rate": 1.0,
+    "cur": "TWD",
+    "count": 0.0,
+    "allMoney": 0.0,
+    "netValue": 0.0,
+    "percent": 0.0,
+    "profit": 0.0
+  },
+  {
+    "decreaseDay": "16",
+    "decreaseMoney": 5000.0,
+    "rate": 1.0,
+    "cur": "TWD",
+    "count": 0.0,
+    "allMoney": 0.0,
+    "netValue": 0.0,
+    "percent": 0.0,
+    "profit": 0.0
+  },
+  {
+    "decreaseDay": "16",
+    "decreaseMoney": 5000.0,
+    "rate": 1.0,
+    "cur": "TWD",
+    "count": 0.0,
+    "allMoney": 0.0,
+    "netValue": 0.0,
+    "percent": 0.0,
+    "profit": 0.0
+  }
+]
