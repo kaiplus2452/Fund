@@ -26,7 +26,10 @@ namespace WindowsFormsApplication1
 
             lsFundValue = Newtonsoft.Json.JsonConvert.DeserializeObject<List<FundValue>>(strJson);
 
-            //RequestData("https://www.fundrich.com.tw/fund/116011.html?id=116011#%E5%9F%BA%E9%87%91%E7%B8%BD%E8%A6%BD");
+            for(int i = 0; i < lsFundValue.Count; i++)
+            {
+                RequestData(lsFundValue[i]);
+            }
 
         }
 
@@ -51,7 +54,6 @@ namespace WindowsFormsApplication1
                 strPath = string.Format("{0}\\..\\..\\..\\WindowsFormsApplication1\\Data\\MyData.json", System.AppDomain.CurrentDomain.BaseDirectory);
                 strData = SingletonClass.singletonClass.RequestUrl(fundValue.strUrl, System.Text.Encoding.UTF8);
 
-
                 NSoup.Nodes.Document htmlDoc = NSoup.NSoupClient.Parse(strData);
                 NSoup.Select.Elements ele = htmlDoc.GetElementsByTag("span");
 
@@ -68,15 +70,44 @@ namespace WindowsFormsApplication1
                     }
                 }
 
-
+                fundValue.rate = getRate(fundValue.cur);
             }
             catch(Exception ex)
             {
                 SingletonClass.singletonClass.WriteLog(ex.ToString());
             }
-
         }
 
+
+        private double getRate(string cur)
+        {
+            string strUrl, strData;
+            double dbRate;
+
+            dbRate = 1;
+            
+            if(cur == "USD")
+            {
+                strUrl = "https://rate.bot.com.tw/xrt?Lang=zh-TW";
+                strData = SingletonClass.singletonClass.RequestUrl(strUrl, System.Text.Encoding.UTF8);
+
+                NSoup.Nodes.Document htmlDoc = NSoup.NSoupClient.Parse(strData);
+                NSoup.Select.Elements ele = htmlDoc.GetElementsByTag("td");
+
+                for (int i = 0; i < ele.Count; i++)
+                {
+                    if ((ele[i].Dataset.ContainsKey("data-table")) && (ele[i].Dataset["data-table"] == "本行即期買入"))
+                    {
+                        dbRate = SingletonClass.singletonClass.ConvertStringToDouble(ele[i].Text().Trim());
+                        break;
+                    }
+                }
+
+            }
+
+
+            return dbRate;
+        }
 
     }
 }
